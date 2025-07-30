@@ -1,24 +1,32 @@
+local button = script.Parent
+local player = game:GetService("Players").LocalPlayer
+local UserInputService = game:GetService("UserInputService")
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local runService = game:GetService("RunService")
+local isMoving = false
 
--- Дождаться загрузки персонажа
-local function onCharacterAdded(character)
-	local humanoid = character:WaitForChild("Humanoid")
-	local rootPart = character:WaitForChild("HumanoidRootPart")
-
-	runService.RenderStepped:Connect(function()
-		-- Перемещение вперёд по направлению взгляда
-		local moveDirection = humanoid.MoveDirection
-		if moveDirection.Magnitude == 0 then
-			humanoid:Move(Vector3.new(0, 0, -1), true)
-		end
-	end)
+-- Движение персонажа
+local function moveForward()
+	local character = player.Character
+	if character and character:FindFirstChild("Humanoid") and character:FindFirstChild("HumanoidRootPart") then
+		local humanoid = character:FindFirstChild("Humanoid")
+		-- Двигаем вперёд
+		humanoid:Move(Vector3.new(0, 0, -1), true)
+	end
 end
 
-if player.Character then
-	onCharacterAdded(player.Character)
-end
+-- Обновление каждый кадр, пока зажата кнопка
+game:GetService("RunService").RenderStepped:Connect(function()
+	if isMoving then
+		moveForward()
+	end
+end)
 
-player.CharacterAdded:Connect(onCharacterAdded)
+-- Когда нажали на кнопку
+button.MouseButton1Down:Connect(function()
+	isMoving = true
+end)
+
+-- Когда отпустили кнопку
+button.MouseButton1Up:Connect(function()
+	isMoving = false
+end)
