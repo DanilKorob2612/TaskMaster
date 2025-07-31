@@ -8,7 +8,7 @@ local humanoid = character:WaitForChild("Humanoid")
 
 -- Настройки скорости
 local defaultSpeed = humanoid.WalkSpeed
-local boostedSpeed = 1000 -- например, в 2 раза быстрее обычной (можно изменить)
+local boostedSpeed = 100000 -- например, в 2 раза быстрее обычной (можно изменить)
 
 -- Создаём GUI
 local screenGui = Instance.new("ScreenGui")
